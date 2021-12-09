@@ -1,0 +1,26 @@
+{
+  "name": "filter-validator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && jest",
+    "build": "tsc"
+  },
+  "author": "Gerard Lamusse",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/jest": "^27.0.3",
+    "babel-jest": "^27.4.2",
+    "jest": "^27.4.2",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.27.0",
+    "lodash": "^4.17.21"
+  }
+}

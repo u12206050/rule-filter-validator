@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES2019",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "rootDir": "../../",
+    "outDir": "./dist",
+    "types": ["node", "jest"],
+    "strict": false,
+    "lib": ["es2019"],
+    "skipLibCheck": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@shared-types/*": ["../../types/*"],
+    }
+  },
+  "exclude": ["node_modules", "dist", "tests"]
+}
