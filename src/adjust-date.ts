@@ -1,5 +1,5 @@
 import { addYears, addWeeks, addMonths, addDays, addHours, addMinutes, addSeconds, addMilliseconds } from 'date-fns';
-import { clone } from 'lodash';
+import { clone } from 'lodash/clone';
 
 /**
  * Adjust a given date by a given change in duration. The adjustment value uses the exact same syntax

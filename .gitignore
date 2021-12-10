@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/node,osx
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,osx
+src/*.js
+src/*.d.ts
 
 ### Node ###
 # Logs

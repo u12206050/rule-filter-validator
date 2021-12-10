@@ -1,5 +1,5 @@
 import { FieldFilter, Filter } from './types';
-import {get} from 'lodash';
+import get from 'lodash/get';
 
 /**
  * Validate the payload against the given filter rules
