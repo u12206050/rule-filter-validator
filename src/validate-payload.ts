@@ -43,13 +43,13 @@ export function isValid(compareValue: any, fn: string, testValue: any) {
 
 		case '_nin': return (compareValue as (string | number)[]).indexOf(testValue) === -1;
 
-		case '_gt': return Number.isSafeInteger(compareValue) ? testValue > Number(compareValue) : new Date(testValue) > new Date(compareValue as string);
+		case '_gt': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) > Number(compareValue) : new Date(testValue) > new Date(compareValue);
 
-		case '_gte': return Number.isSafeInteger(compareValue) ? testValue >= Number(compareValue) : new Date(testValue) >= new Date(compareValue as string);
+		case '_gte': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) >= Number(compareValue) : new Date(testValue) >= new Date(compareValue);
 
-		case '_lt': return Number.isSafeInteger(compareValue) ? testValue < Number(compareValue) : new Date(testValue) < new Date(compareValue as string);
+		case '_lt': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) < Number(compareValue) : new Date(testValue) < new Date(compareValue);
 
-		case '_lte': return Number.isSafeInteger(compareValue) ? testValue <= Number(compareValue) : new Date(testValue) <= new Date(compareValue as string);
+		case '_lte': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) <= Number(compareValue) : new Date(testValue) <= new Date(compareValue);
 
 		case '_null': return testValue === null ? compareValue : ! compareValue;
 
@@ -60,18 +60,18 @@ export function isValid(compareValue: any, fn: string, testValue: any) {
 		case '_nempty': return Array.isArray(testValue) ? testValue.length > 0 : testValue !== '';
 
 		case '_between':
-			if ((compareValue as Array<any>).every((value: any) => Number.isSafeInteger(value))) {
+			if ((compareValue as Array<any>).every((value: any) => Number.isSafeInteger(value * 1))) {
 				const [min, max] = compareValue as [number, number]
-				return testValue > min && testValue < max
+				return testValue > Number(min) && testValue < Number(max)
 			} else {
 				const [min, max] = compareValue as [string, string]
 				return testValue > min && testValue < max
 			}
 
 		case '_nbetween':
-			if ((compareValue as Array<any>).every((value: any) => Number.isSafeInteger(value))) {
+			if ((compareValue as Array<any>).every((value: any) => Number.isSafeInteger(value * 1))) {
 				const [min, max] = compareValue as [number, number]
-				return testValue < min || testValue > max
+				return testValue < Number(min) || testValue > Number(max)
 			} else {
 				const [min, max] = compareValue as [string, string]
 				return testValue < min || testValue > max
@@ -109,7 +109,7 @@ function validate(filter: Filter, payload: Record<string, any>, errors = [], pat
 			let result = isValid(compareValue, key, testValue)
 			if (result !== null) {
 				if (!result) {
-					errors.push(`Failed: ${path} with ${testValue} does not match ${key} with ${compareValue}`)
+					errors.push(`Failed: ${path} with ${JSON.stringify(testValue)} does not match ${key} with ${JSON.stringify(compareValue)}`)
 				}
 
 				return result

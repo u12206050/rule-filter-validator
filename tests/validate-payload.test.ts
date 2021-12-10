@@ -4,7 +4,7 @@ const SCOPE = {
     person: {
         id: 1,
         dob: "1998-02-18",
-        age: 23,
+        age: '23',
         active: true,
         gender: 'F'
     },
@@ -35,7 +35,7 @@ describe('Test basic validations', () => {
             "person": {
                 "age": {
                     "_gt": 18,
-                    "_lt": 25
+                    "_lt": '25'
                 }
             }
         }, 0)
