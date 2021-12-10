@@ -2,11 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "ES2019",
+    "target": "ES2017",
     "moduleResolution": "node",
     "sourceMap": false,
     "rootDir": "../../",
-    "outDir": "./dist",
     "types": ["node", "jest"],
     "strict": false,
     "lib": ["es2019"],
