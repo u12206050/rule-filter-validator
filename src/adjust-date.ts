@@ -1,6 +1,3 @@
-import { addYears, addWeeks, addMonths, addDays, addHours, addMinutes, addSeconds, addMilliseconds } from 'date-fns';
-import { clone } from 'lodash/clone';
-
 /**
  * Adjust a given date by a given change in duration. The adjustment value uses the exact same syntax
  * and logic as Vercel's `ms`.
@@ -8,7 +5,7 @@ import { clone } from 'lodash/clone';
  * The conversion is lifted straight from `ms`.
  */
 export function adjustDate(date: Date, adjustment: string): Date | undefined {
-	date = clone(date);
+	date = new Date(date);
 
 	const match =
 		/^((?:-|\+)?\d*?\.?\d+?) *?(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|months?|mth|mo|years?|yrs?|y)?$/i.exec(
@@ -26,44 +23,52 @@ export function adjustDate(date: Date, adjustment: string): Date | undefined {
 		case 'yrs':
 		case 'yr':
 		case 'y':
-			return addYears(date, amount);
+			date.setFullYear(date.getFullYear() + amount)
+			return date;
 		case 'months':
 		case 'month':
 		case 'mth':
 		case 'mo':
-			return addMonths(date, amount);
+			date.setMonth(date.getMonth() + amount)
+			return date;
 		case 'weeks':
 		case 'week':
 		case 'w':
-			return addWeeks(date, amount);
+			date.setDate(date.getDate() + amount * 7)
+			return date;
 		case 'days':
 		case 'day':
 		case 'd':
-			return addDays(date, amount);
+			date.setDate(date.getDate() + amount)
+			return date;
 		case 'hours':
 		case 'hour':
 		case 'hrs':
 		case 'hr':
 		case 'h':
-			return addHours(date, amount);
+			date.setHours(date.getHours() + amount)
+			return date;
 		case 'minutes':
 		case 'minute':
 		case 'mins':
 		case 'min':
 		case 'm':
-			return addMinutes(date, amount);
+			date.setMinutes(date.getMinutes() + amount)
+			return date;
 		case 'seconds':
 		case 'second':
 		case 'secs':
 		case 'sec':
 		case 's':
-			return addSeconds(date, amount);
+			date.setSeconds(date.getSeconds() + amount)
+			return date;
 		case 'milliseconds':
 		case 'millisecond':
 		case 'msecs':
 		case 'msec':
 		case 'ms':
-			return addMilliseconds(date, amount);
+			date.setMilliseconds(date.getMilliseconds() + amount)
+			return date;
 		default:
 			return undefined;
 	}

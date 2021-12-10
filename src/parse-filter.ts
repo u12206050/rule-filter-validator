@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import get from 'lodash.get';
 import { FilterContext, Filter } from './types';
 import { toArray } from './to-array';
 import { adjustDate } from './adjust-date';
