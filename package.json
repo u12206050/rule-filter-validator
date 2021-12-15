@@ -1,10 +1,14 @@
 {
   "name": "rule-filter-validator",
-  "version": "1.0.3",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.4",
+  "description": "A object and scope validator based on structured rules",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
-    "test": "tsc && jest",
+    "test": "npm run build && jest",
     "build": "tsc"
   },
   "author": "Gerard Lamusse",
@@ -12,12 +16,14 @@
     "type": "git",
     "url": "https://github.com/u12206050/rule-filter-validator"
   },
+  "type": "module",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
     "@types/jest": "^27.0.3",
+    "@types/lodash.get": "^4.4.6",
     "babel-jest": "^27.4.2",
     "jest": "^27.4.2",
     "ts-jest": "^27.0.7",

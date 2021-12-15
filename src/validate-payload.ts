@@ -9,15 +9,15 @@ import get from 'lodash.get';
  * @returns Array<string> errors if any
  */
 export function validatePayload(filter: Filter, payload: Record<string, any>) {
-	const errors = []
-	const pass = validate(filter, payload, errors, '')
+	const errors: string[] = []
+	validate(filter, payload, errors, '')
 	errors.reverse()
 
 	return errors
 }
 
 
-export function isValid(compareValue: any, fn: string, testValue: any) {
+export function isValid(compareValue: any, fn: string, testValue: any): boolean | null {
 	switch (fn) {
 		case '_eq': return compareValue === testValue;
 
@@ -94,10 +94,11 @@ export function isValid(compareValue: any, fn: string, testValue: any) {
  *
  * @param {Filter} filter - The filter rules to check against
  * @param {Record<string, any>} payload - The payload to validate
+ * @param errors
  * @param {string} path - Optional options to pass to Joi
  * @returns { errors: Array<string> }
  */
-function validate(filter: Filter, payload: Record<string, any>, errors = [], path = '') {
+function validate(filter: Filter, payload: Record<string, any>, errors: string[] = [], path: any = ''): boolean {
 	if (typeof filter !== 'object' && ! filter) {
 		throw new Error('Filter rule is not valid')
 	}
