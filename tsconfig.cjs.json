@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES2019",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "rootDir": "src/",
+    "outDir": "./cjs",
+    "types": ["node", "jest"],
+    "strict": true,
+    "lib": ["es2019", "ESNext"],
+    "skipLibCheck": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": ["node_modules", "dist", "tests"]
+}
