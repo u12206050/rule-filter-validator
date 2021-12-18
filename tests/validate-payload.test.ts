@@ -1,4 +1,4 @@
-import {parseFilter, validatePayload, Filter} from '../src/index';
+import {parseFilter, validatePayload, Filter} from '../src';
 
 const SCOPE = {
     person: {
@@ -113,6 +113,26 @@ describe('Test basic validations', () => {
             "org": {
                 "continent": {
                     "_ends_with": "ope",
+                }
+            }
+        } as any), 0)
+    });
+
+    it('Check _in', () => {
+        testRule(parseFilter({
+            "org": {
+                "id": {
+                    "_in": ['8','9','10','11'],
+                }
+            }
+        } as any), 0)
+    });
+
+    it('Check _in', () => {
+        testRule(parseFilter({
+            "org": {
+                "country": {
+                    "_in": ['no','sw','dk'],
                 }
             }
         } as any), 0)

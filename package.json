@@ -1,6 +1,6 @@
 {
   "name": "rule-filter-validator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A object and scope validator based on structured rules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

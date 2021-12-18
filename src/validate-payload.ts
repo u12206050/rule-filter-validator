@@ -39,9 +39,9 @@ export function isValid(compareValue: any, fn: string, testValue: any): boolean 
 		case '_nends_with':
 			return ! String(testValue).endsWith(String(compareValue));
 
-		case '_in': return (compareValue as (string | number)[]).indexOf(testValue) > -1;
+		case '_in': return (compareValue as string[]).join(',').split(',').includes(String(testValue));
 
-		case '_nin': return (compareValue as (string | number)[]).indexOf(testValue) === -1;
+		case '_nin': return ! (compareValue as string[]).join(',').split(',').includes(String(testValue));
 
 		case '_gt': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) > Number(compareValue) : new Date(testValue) > new Date(compareValue);
 
