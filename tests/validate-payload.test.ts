@@ -29,6 +29,7 @@ const testRule = (rule: Filter, resultLength = 0) =>
 
     expect(errors).toHaveLength(resultLength);
 }
+
 describe('Test basic validations', () => {
     it('Passes simple test', () => {
         let errors = validatePayload({person: { age: { _lt: "18" }}}, {person: { age: 4 }});

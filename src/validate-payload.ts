@@ -106,21 +106,26 @@ function validate(filter: Filter, payload: Record<string, any>, errors: string[]
 		const compareValue = get(filter, key) as any;
 
 		if (String(key).startsWith('_')) {
-			let testValue = get(payload, path, undefined)
-			let result = isValid(compareValue, key, testValue)
-			if (result !== null) {
-				if (!result) {
-					errors.push(`Failed: ${path} with ${JSON.stringify(testValue)} does not match ${key} with ${JSON.stringify(compareValue)}`)
-				}
-
-				return result
-			}
-
 			switch (key) {
 				case '_and':
 					return (compareValue as Array<FieldFilter>).every(subFilter => validate(subFilter, payload, errors, path))
 				case '_or':
-					return (compareValue as Array<FieldFilter>).some(subFilter => validate(subFilter, payload, errors, path))
+					let swallowErrors: string[] = []
+					let result = (compareValue as Array<FieldFilter>).some(subFilter => validate(subFilter, payload, swallowErrors, path))
+					if (! result) {
+						errors.push(swallowErrors.join(' || '))
+					}
+					return result
+			}
+
+			let testValue = get(payload, path, undefined)
+			let result = isValid(compareValue, key, testValue)
+			if (result !== null) {
+				if (! result) {
+					errors.push(`Failed: ${path} with ${JSON.stringify(testValue)} does not match ${key} with ${JSON.stringify(compareValue)}`)
+				}
+
+				return result
 			}
 		}
 
