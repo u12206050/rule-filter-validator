@@ -1,4 +1,4 @@
-# 1.1.0
+# 1.1.1
 
  - Add strict mode. See Readme
  - **Breaking** Tests by default are now type and case INSENSITIVE. If you were dependant on it enable strict mode.
