@@ -1,12 +1,16 @@
 {
   "name": "rule-filter-validator",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A object and scope validator based on structured rules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
     "cjs"
+  ],
+  "keywords": [
+    "logic-validator", "rule-validator",
+    "validator", "validate", "validate-json", "validate-object", "validate-scope"
   ],
   "scripts": {
     "test": "npm run build && jest",

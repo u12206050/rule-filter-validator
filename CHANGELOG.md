@@ -1,3 +1,8 @@
+# 1.1.0
+
+ - Add strict mode. See Readme
+ - **Breaking** Tests by default are now type and case INSENSITIVE. If you were dependant on it enable strict mode.
+
 # 1.0.8
 
  - Fix `_or` to swallow errors and return only one error if not valid rule is found
