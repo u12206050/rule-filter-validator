@@ -7,9 +7,7 @@ export const parseFilter = (
 	filter: Filter,
 	context: FilterContext = {}
 ): Filter => {
-	return Object.entries(filter).reduce((result: Filter, entry) => {
-		const key: string = String(entry[0]);
-		const value = entry[1]
+	return Object.entries(filter).reduce((result: Filter, [ key, value ]) => {
 		if (['_or', '_and'].includes(key)) {
 			// @ts-ignore
 			result[key] = (value as Filter[]).map((filter: Filter) => parseFilter(filter, context));

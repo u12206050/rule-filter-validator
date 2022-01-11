@@ -1,3 +1,8 @@
+# 1.1.2
+
+ - Automatically call parseFilter within validatePayload.
+   - Add the payload as part of the scope allowing for writing filters that can use `$SCOPE.property_on_payload` as a test value
+
 # 1.1.1
 
  - Add strict mode. See Readme

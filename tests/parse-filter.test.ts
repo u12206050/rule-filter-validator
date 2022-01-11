@@ -1,10 +1,13 @@
-import {parseFilter, validatePayload, Filter} from '../src/index';
+import { parseFilter, validatePayload, Filter } from '../src';
 
 test('Simple ParseFilter replacing with value from $SCOPE', () => {
     const testRule: Filter = {
         reg: {
             age: {
                 _gt: "$SCOPE.person.age"
+            },
+            date: {
+                _gt: "$NOW"
             }
         }
     }
@@ -14,7 +17,8 @@ test('Simple ParseFilter replacing with value from $SCOPE', () => {
             age: 16
         },
         reg: {
-            age: 17
+            age: 17,
+            date: Date.now() + 1000
         }
     }
 
@@ -30,5 +34,5 @@ test('Simple ParseFilter replacing with value from $SCOPE', () => {
 
     let errors = validatePayload(result, SCOPE);
 
-    expect(! errors.length).toEqual(true);
+    expect(errors).toHaveLength(0);
 });

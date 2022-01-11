@@ -1,5 +1,6 @@
 import { FieldFilter, Filter } from './types';
 import get from 'lodash.get';
+import { parseFilter } from "./parse-filter";
 
 /**
  * Validate the payload against the given filter rules
@@ -11,7 +12,7 @@ import get from 'lodash.get';
  */
 export function validatePayload(filter: Filter, payload: Record<string, any>, strict = false) {
 	const errors: string[] = []
-	validate(filter, payload, errors, '', strict)
+	validate(parseFilter(filter), payload, errors, '', strict)
 	errors.reverse()
 
 	return errors
