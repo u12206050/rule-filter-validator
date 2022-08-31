@@ -1,6 +1,7 @@
 import { FieldFilter, Filter } from './types';
 import get from 'lodash.get';
-import { parseFilter } from "./parse-filter";
+import { parseDate } from './adjust-date';
+import { parseFilter } from './parse-filter';
 
 /**
  * Validate the payload against the given filter rules
@@ -66,22 +67,9 @@ export function isValid(compareValue: any, fn: string, testValue: any, strict = 
 		case '_nempty': return Array.isArray(testValue) ? testValue.length > 0 : testValue !== '';
 
 		case '_between':
-			if ((compareValue as Array<any>).every((value: any) => Number.isSafeInteger(value * 1))) {
-				const [min, max] = compareValue as [number, number]
-				return testValue > Number(min) && testValue < Number(max)
-			} else {
-				const [min, max] = compareValue as [string, string]
-				return testValue > min && testValue < max
-			}
-
+			return isValid(compareValue[0], '_gte', testValue, strict) && isValid(compareValue[1], '_lte', testValue, strict)
 		case '_nbetween':
-			if ((compareValue as Array<any>).every((value: any) => Number.isSafeInteger(value * 1))) {
-				const [min, max] = compareValue as [number, number]
-				return testValue < Number(min) || testValue > Number(max)
-			} else {
-				const [min, max] = compareValue as [string, string]
-				return testValue < min || testValue > max
-			}
+			return isValid(compareValue[0], '_lt', testValue, strict) || isValid(compareValue[1], '_gt', testValue, strict)
 
 		case '_submitted': return (typeof testValue !== 'undefined' ? compareValue : ! compareValue) as boolean;
 

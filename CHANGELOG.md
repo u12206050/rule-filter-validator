@@ -1,3 +1,8 @@
+# 1.1.3
+
+ - Fix _between to be inclusive
+ - Fix support for testing dates using _between
+
 # 1.1.2
 
  - Automatically call parseFilter within validatePayload.

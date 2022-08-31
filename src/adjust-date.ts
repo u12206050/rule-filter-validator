@@ -73,3 +73,8 @@ export function adjustDate(date: Date, adjustment: string): Date | undefined {
 			return undefined;
 	}
 }
+
+export function parseDate(date: string): number {
+	let ms = Date.parse(date)
+	return isNaN(ms) ? 0 : ms;
+}

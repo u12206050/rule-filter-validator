@@ -89,6 +89,26 @@ describe('Test basic validations', () => {
         }, 0)
     });
 
+    it('Check two date values _between', () => {
+        testRule({
+            "person": {
+                "dob": {
+                    "_between": ["1987-01-01T00:00:00", "2010-12-31T23:00:00"],
+                }
+            }
+        }, 0)
+    });
+
+    it('Check error two date values _between', () => {
+        testRule({
+            "person": {
+                "dob": {
+                    "_between": ["1987-01-01T00:00:00", "1990-12-31T23:00:00"],
+                }
+            }
+        }, 1)
+    });
+
     it('Check two values _nbetween', () => {
         testRule(parseFilter({
             "org": {
@@ -154,6 +174,32 @@ describe('validatePayload', () => {
     it('returns an array of 1 when there errors with an _or operator', () => {
         const mockFilter = { _or: [{ field: { _eq: 'field' } }] } as Filter;
         const mockPayload = { field: 'test' };
+        expect(validatePayload(mockFilter, mockPayload)).toHaveLength(1);
+    });
+
+    it('returns an array of 1 when there errors with an _or containing _and operators', () => {
+        const mockFilter = {
+            _or: [
+                {
+                    _and: [
+                        { a: { _eq: 1 } },
+                        { b: { _eq: 1 } },
+                    ],
+                },
+                {
+                    _and: [
+                        { a: { _eq: 2 } },
+                        { b: { _eq: 2 } },
+                    ],
+                },
+            ],
+        } as Filter;
+
+        const mockPayload = {
+            a: 0,
+            b: 0,
+        };
+
         expect(validatePayload(mockFilter, mockPayload)).toHaveLength(1);
     });
 });
