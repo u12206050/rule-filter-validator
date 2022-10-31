@@ -1,3 +1,8 @@
+# 1.2.0
+
+ - Pretty errors.
+ - Allow string compare on `gt`, `gte`, `lt`, `lte` and `between` operands
+
 # 1.1.3
 
  - Fix _between to be inclusive

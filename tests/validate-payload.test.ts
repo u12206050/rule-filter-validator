@@ -37,7 +37,7 @@ describe('Test basic validations', () => {
     })
 
 
-    it('Validate gt and lt', () => {
+    it('Validate gt and lt (number)', () => {
         testRule({
             "person": {
                 "age": {
@@ -57,6 +57,16 @@ describe('Test basic validations', () => {
                 }
             }
         }, 1)
+    });
+
+    it('Validate gt and lt (string)', () => {
+        testRule({
+            "org": {
+                "country": {
+                    "_gt": 'nb',
+                }
+            }
+        }, 0)
     });
 
     it('Check boolean _eq', () => {

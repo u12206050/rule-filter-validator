@@ -1,7 +1,31 @@
-import { FieldFilter, Filter } from './types';
+import { FieldFilter, FieldFilterOperator, Filter } from './types';
 import get from 'lodash.get';
-import { parseDate } from './adjust-date';
 import { parseFilter } from './parse-filter';
+
+const FieldFilterText: Record<keyof FieldFilterOperator, string> = {
+	_eq: 'equal to',
+	_neq: 'not equal to',
+	_contains: 'contains',
+	_ncontains: 'does not contain',
+	_starts_with: 'starts with',
+	_nstarts_with: 'does not start with',
+	_ends_with: 'ends with',
+	_nends_with: 'does not end with',
+	_in: 'in',
+	_nin: 'not in',
+	_between: 'between',
+	_nbetween: 'not between',
+	_gt: 'greater than',
+	_gte: 'greater than or equal to',
+	_lt: 'less than',
+	_lte: 'less than or equal to',
+	_null: 'null =',
+	_nnull: 'not null =',
+	_empty: 'empty =',
+	_nempty: 'not empty =',
+	_submitted: 'submitted =',
+	_regex: 'matching regex',
+}
 
 /**
  * Validate the payload against the given filter rules
@@ -24,6 +48,24 @@ export function isValid(compareValue: any, fn: string, testValue: any, strict = 
 	const strictValue = (value: any) => strict ? value : String(value).toUpperCase()
 	const strictString = (value: any) => strictValue(String(value))
 	const strictArray = (value: Array<any>) => strict ? value : strictValue((value as string[]).join(',')).split(',')
+
+	function safeCompare(a: any, b: any, cb: (A: any, B: any) => boolean) {
+		let A: any = Number(a*1)
+		let B: any = Number(b*1)
+
+		if (Number.isSafeInteger(A) && Number.isSafeInteger(B)) {
+			return cb(A, B)
+		}
+
+		A = new Date(a)
+		B = new Date(b)
+		
+		if (A.toString() !== 'Invalid Date' && B.toString() !== 'Invalid Date') {
+			return cb(A, B)
+		}
+
+		return cb(strictValue(a), strictValue(b))	
+	}
 
 	switch (fn) {
 		case '_eq': return strictValue(compareValue) === strictValue(testValue);
@@ -50,13 +92,13 @@ export function isValid(compareValue: any, fn: string, testValue: any, strict = 
 
 		case '_nin': return ! strictArray(compareValue).includes(strictValue(testValue));
 
-		case '_gt': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) > Number(compareValue) : new Date(testValue) > new Date(compareValue);
+		case '_gt': return safeCompare(compareValue, testValue, (cv, tv) => tv > cv);
 
-		case '_gte': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) >= Number(compareValue) : new Date(testValue) >= new Date(compareValue);
+		case '_gte': return safeCompare(compareValue, testValue, (cv, tv) => tv >= cv);
 
-		case '_lt': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) < Number(compareValue) : new Date(testValue) < new Date(compareValue);
+		case '_lt': return safeCompare(compareValue, testValue, (cv, tv) => tv < cv);
 
-		case '_lte': return Number.isSafeInteger((compareValue + testValue) * 1) ? Number(testValue) <= Number(compareValue) : new Date(testValue) <= new Date(compareValue);
+		case '_lte': return safeCompare(compareValue, testValue, (cv, tv) => tv <= cv);
 
 		case '_null': return testValue === null ? compareValue : ! compareValue;
 
@@ -108,7 +150,8 @@ function validate(filter: Filter, payload: Record<string, any>, errors: string[]
 					let swallowErrors: string[] = []
 					let result = (compareValue as Array<FieldFilter>).some(subFilter => validate(subFilter, payload, swallowErrors, path, strict))
 					if (! result) {
-						errors.push(swallowErrors.join(' || '))
+						// If errors then will be false if all checks fail thus &&
+						errors.push(swallowErrors.join(' and '))
 					}
 					return result
 			}
@@ -117,7 +160,7 @@ function validate(filter: Filter, payload: Record<string, any>, errors: string[]
 			let result = isValid(compareValue, key, testValue, strict)
 			if (result !== null) {
 				if (! result) {
-					errors.push(`Failed: ${path} with ${JSON.stringify(testValue)} does not match ${key} with ${JSON.stringify(compareValue)}`)
+					errors.push(`Failed: ${path.split('.').reverse().join(' of ')} is ${JSON.stringify(testValue)} and is not ${FieldFilterText[key as keyof FieldFilterOperator]} ${JSON.stringify(compareValue)}`);
 				}
 
 				return result
