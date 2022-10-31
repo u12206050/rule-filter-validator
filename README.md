@@ -95,3 +95,32 @@ const priceToPay = prices.find(({ price, logic }) => {
     return ! e.length
 })
 ```
+
+
+
+## All Operands
+
+| Fn | Description | Accepted Types |
+| ---- | ----- | ----- | ------ |
+| _eq | equal to | string, number, boolean
+| _neq | not equal to | string, number, boolean
+| _contains | contains | string, number
+| _ncontains | does not contain | string, number
+| _starts_with | starts with | string, number
+| _nstarts_with | does not start with | string, number
+| _ends_with | ends with | string, number
+| _nends_with | does not end with | string, number
+| _in | in | string, Array
+| _nin | not in | string, Array
+| _between | between | string, number, Date
+| _nbetween | not between | string, number, Date
+| _gt | greater than | string, number, Date
+| _gte | greater than or equal to | string, number, Date
+| _lt | less than | string, number, Date
+| _lte | less than or equal to | string, number, Date
+| _null | null = | string, number, boolean, Date, Array
+| _nnull | not null = | string, number, boolean, Date, Array
+| _empty | empty = | string, Array
+| _nempty | not empty = | string, Array
+| _submitted | submitted = | string, number, boolean, Date, Array
+| _regex | matching regex | string, number, boolean, Date
