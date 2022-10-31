@@ -98,10 +98,10 @@ const priceToPay = prices.find(({ price, logic }) => {
 
 
 
-## All Operands
+## All Operands (Functions)
 
 | Fn | Description | Accepted Types |
-| ---- | ----- | ----- | ------ |
+| ---- | ----- | ----- |
 | _eq | equal to | string, number, boolean
 | _neq | not equal to | string, number, boolean
 | _contains | contains | string, number
