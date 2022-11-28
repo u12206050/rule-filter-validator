@@ -29,7 +29,7 @@ const rule: Filter = {
             "_lt": 25
         }
     }
-} 
+}
 
 let errors = validatePayload(rule, SCOPE);
 return ! errors.length // true
