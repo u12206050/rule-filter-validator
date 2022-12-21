@@ -1,3 +1,10 @@
+# 1.2.1
+
+### Added utility functions
+ - `removeFieldFromFilter` Recursivly remove a certain field from a filter
+ - `extractFieldFromFilter` Recursivly extract a certain field from a filter
+ - `invertFilter` Return a new filter that is the inverse of the original filter
+
 # 1.2.0
 
  - Pretty errors.
