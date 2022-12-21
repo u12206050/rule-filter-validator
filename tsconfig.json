@@ -1,21 +1,13 @@
 {
+  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
-    "module": "esnext",
     "esModuleInterop": true,
-    "target": "ESNext",
-    "moduleResolution": "node",
-    "sourceMap": false,
     "rootDir": "src/",
     "outDir": "./dist",
     "types": ["node", "jest"],
-    "strict": true,
-    "lib": ["es2019", "ESNext"],
-    "skipLibCheck": true,
-    "declaration": true,
-    "resolveJsonModule": true,
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts"
   ],
   "exclude": ["node_modules", "dist", "tests"]
 }
