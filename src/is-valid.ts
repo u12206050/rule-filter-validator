@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 export function isValid(
   compareValue: any,
   fn: string,

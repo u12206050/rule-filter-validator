@@ -4,10 +4,9 @@
     "esModuleInterop": true,
     "rootDir": "src/",
     "outDir": "./dist",
-    "types": ["node", "jest"],
+    "types": ["node", "jest"]
+    "noEmitOnError": false
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]
 }

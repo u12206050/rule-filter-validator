@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function toArray<T = any>(val: T | T[]): T[] {
   if (typeof val === 'string') {
     return val.split(',') as unknown as T[];

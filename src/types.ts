@@ -35,6 +35,7 @@ export type FieldFilter = {
   [field: string]: FieldFilterOperator | FieldFilter;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FilterContext = Record<string, any>;
 
 export type FieldFilterOperator = {

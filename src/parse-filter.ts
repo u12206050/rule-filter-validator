@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import get from 'lodash.get';
 import {FilterContext, Filter} from './types';
 import {toArray} from './to-array';
