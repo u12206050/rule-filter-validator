@@ -89,8 +89,7 @@ export function invertFilter(filter: Filter): FieldFilterOperator | Filter {
         invertedFilter._submitted = !value;
         break;
       case '_regex':
-        // TODO - invert regex
-        invertedFilter._regex = value;
+        invertedFilter._regex = invertRegex(value);
         break;
 
       default:
@@ -101,4 +100,21 @@ export function invertFilter(filter: Filter): FieldFilterOperator | Filter {
   });
 
   return invertedFilter;
+}
+
+function invertRegex(pattern: string): string {
+  // Extract any flags from the pattern
+  const flags = pattern.match(/\/([gimuy]*)$/)?.[1] || '';
+
+  // Remove the flags from the pattern
+  pattern = pattern.replace(/\/[gimuy]*$/, '');
+
+  // Check if the pattern starts with the "not" operator (^) to invert it
+  if (pattern.startsWith('^')) {
+    pattern = pattern.slice(1);
+  } else {
+    pattern = '^' + pattern;
+  }
+
+  return flags ? `/${pattern}/${flags}` : pattern;
 }
