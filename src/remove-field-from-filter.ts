@@ -8,16 +8,14 @@ import {
 /**
  *
  * @param filter Filter
- * @param oldField string name of field to rename
- * @param newField string new name of field
+ * @param field string name of field to remove
  * @param filterPath (optional)
  * @param _history (private)
  * @returns
  */
-export function renameFieldInFilter(
+export function removeFieldFromFilter(
   filter: Filter,
-  oldField: string,
-  newField: string,
+  field: string,
   filterPath = '',
   _history = ''
 ): Filter | any {
@@ -39,10 +37,9 @@ export function renameFieldInFilter(
       const logicalFilter = () =>
         (value as Filter[])
           .map((subFilter: Filter, i) =>
-            renameFieldInFilter(
+            removeFieldFromFilter(
               subFilter,
-              oldField,
-              newField,
+              field,
               filterPath,
               `${_history}.${key}[${i}]`
             )
@@ -60,16 +57,14 @@ export function renameFieldInFilter(
       return;
     }
 
-    const alteredValue = renameFieldInFilter(
+    const alteredValue = removeFieldFromFilter(
       value,
-      oldField,
-      newField,
+      field,
       filterPath,
       _history + '.' + key
     );
 
-    if (key === oldField && (!filterPath || _history.includes(filterPath))) {
-      alteredFilter[newField] = alteredValue;
+    if (key === field && (!filterPath || _history.includes(filterPath))) {
       return;
     }
 
