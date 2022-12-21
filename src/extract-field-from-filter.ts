@@ -34,8 +34,9 @@ export function extractFieldFromFilter(
 
     if (Array.isArray(value)) {
       const logicalKey = key as keyof LogicalFilter;
-      const logicalFilter = () =>
-        (value as Filter[])
+
+      const flattenedLogicalFilter = () => {
+        const filters = (value as Filter[])
           .map((subFilter: Filter, i) =>
             extractFieldFromFilter(
               subFilter,
@@ -46,7 +47,6 @@ export function extractFieldFromFilter(
           )
           .filter(Boolean) as Array<Filter>;
 
-      const flattenedLogicalFilter = (filters: Array<Filter>) => {
         if (filters.length === 0) {
           return {};
         }
@@ -57,7 +57,7 @@ export function extractFieldFromFilter(
       };
 
       if (logicalKey === '_or' || logicalKey === '_and') {
-        Object.assign(alteredFilter, flattenedLogicalFilter(logicalFilter()));
+        Object.assign(alteredFilter, flattenedLogicalFilter());
       } else {
         alteredFilter[key] = value;
       }
