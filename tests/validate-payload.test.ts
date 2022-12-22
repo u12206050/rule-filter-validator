@@ -152,7 +152,7 @@ describe('Test basic validations', () => {
             _nbetween: '9, 11',
           },
         },
-      } as any),
+      }),
       1
     );
   });
@@ -165,7 +165,7 @@ describe('Test basic validations', () => {
             _starts_with: 'no',
           },
         },
-      } as any),
+      }),
       0
     );
   });
@@ -178,7 +178,7 @@ describe('Test basic validations', () => {
             _ends_with: 'ope',
           },
         },
-      } as any),
+      }),
       0
     );
   });
@@ -191,7 +191,7 @@ describe('Test basic validations', () => {
             _in: ['8', '9', '10', '11'],
           },
         },
-      } as any),
+      }),
       0
     );
   });
@@ -204,7 +204,7 @@ describe('Test basic validations', () => {
             _in: ['no', 'sw', 'dk'],
           },
         },
-      } as any),
+      }),
       0
     );
   });

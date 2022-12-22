@@ -1,17 +1,6 @@
 import {parseFilter, validatePayload, Filter} from '../src';
 
 test('Simple ParseFilter replacing with value from $SCOPE', () => {
-  const testRule: Filter = {
-    reg: {
-      age: {
-        _gt: '$SCOPE.person.age',
-      },
-      date: {
-        _gt: '$NOW',
-      },
-    },
-  };
-
   const SCOPE = {
     person: {
       age: 16,
@@ -19,6 +8,17 @@ test('Simple ParseFilter replacing with value from $SCOPE', () => {
     reg: {
       age: 17,
       date: Date.now() + 1000,
+    },
+  };
+
+  const testRule: Filter<typeof SCOPE> = {
+    reg: {
+      age: {
+        _gt: '$SCOPE.person.age',
+      },
+      date: {
+        _gt: '$NOW',
+      },
     },
   };
 

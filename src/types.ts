@@ -25,18 +25,21 @@ export type ClientFilterOperator =
   | 'ends_with'
   | 'nends_with';
 
-export type Filter = LogicalFilter | FieldFilter;
-
-export type LogicalFilterOR = {_or: Filter[]};
-export type LogicalFilterAND = {_and: Filter[]};
-export type LogicalFilter = LogicalFilterOR | LogicalFilterAND;
-
-export type FieldFilter = {
-  [field: string]: FieldFilterOperator | FieldFilter;
-};
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FilterContext = Record<string, any>;
+
+export type Filter<T = FilterContext> =
+  | LogicalFilter<Partial<T>>
+  | FieldFilter<Partial<T>>;
+export type FieldFilter<T = FilterContext> = {
+  [field in keyof T]: FieldFilterOperator | FieldFilter<Partial<T[field]>>;
+};
+
+export type LogicalFilterOR<T = FilterContext> = {_or: Filter<Partial<T>>[]};
+export type LogicalFilterAND<T = FilterContext> = {_and: Filter<Partial<T>>[]};
+export type LogicalFilter<T = FilterContext> =
+  | LogicalFilterOR<T>
+  | LogicalFilterAND<T>;
 
 export type FieldFilterOperator = {
   _eq?: string | number | boolean;
@@ -45,8 +48,8 @@ export type FieldFilterOperator = {
   _lte?: string | number;
   _gt?: string | number;
   _gte?: string | number;
-  _in?: (string | number)[];
-  _nin?: (string | number)[];
+  _in?: (string | number)[] | string;
+  _nin?: (string | number)[] | string;
   _null?: boolean;
   _nnull?: boolean;
   _starts_with?: string;
@@ -55,8 +58,8 @@ export type FieldFilterOperator = {
   _nends_with?: string;
   _contains?: string;
   _ncontains?: string;
-  _between?: (string | number)[];
-  _nbetween?: (string | number)[];
+  _between?: (string | number)[] | string;
+  _nbetween?: (string | number)[] | string;
   _empty?: boolean;
   _nempty?: boolean;
   _submitted?: boolean;
