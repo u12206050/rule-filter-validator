@@ -1,16 +1,20 @@
-## The idea
+# The idea
 
 Given a specific scope what is the easiest way to write various rules that be tested against the scope for various reasons
 
-Useful for testing Business Logic stored as json.
+Useful for testing & validation Business Logic stored as json.
 
-## Usage
+
+
+# Getting started
 
 `npm install rule-filter-validator`
 
 `validatePayload(filter, payload, [strict = false])`
 
-### Example
+[View all methods and functions](#methods)
+
+## Examples
 ```
 const SCOPE = {
     person: {
@@ -57,9 +61,7 @@ Calling `validatePayload(filter, payload, [strict = false])` with strict = true 
 
 **_contains** always compares as strings and is therefore not type sensitive
 
-
 ## Advance Usage
-
 ### Find a matching price rule
 
 ```
@@ -97,6 +99,21 @@ const priceToPay = prices.find(({ price, logic }) => {
 ```
 
 
+# Methods
+
+- `validatePayload(Filter, Payload, strict?)`
+
+    This is the main function that validates the payload against the filter. It returns an array of errors, if any.
+
+- `invertFilter(Filter)`
+ 
+    Inverts the filter, so that the filter will return the opposite of what it would have returned before.
+
+- `extractFieldFromFilter(Filter, Field, Path?)`
+
+    This extracts the given field from the passed Filter and returns a new Filter object that only contains only the given field and its children, if any.
+
+---
 
 ## All Operands (Functions)
 
