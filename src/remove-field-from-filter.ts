@@ -64,7 +64,7 @@ export function removeFieldFromFilter(
       _history + '.' + key
     );
 
-    if (key === field && (!filterPath || _history.includes(filterPath))) {
+    if (key === field && (!filterPath || _history.endsWith(filterPath))) {
       return;
     }
 

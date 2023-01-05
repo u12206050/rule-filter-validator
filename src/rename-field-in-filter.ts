@@ -68,7 +68,7 @@ export function renameFieldInFilter(
       _history + '.' + key
     );
 
-    if (key === oldField && (!filterPath || _history.includes(filterPath))) {
+    if (key === oldField && (!filterPath || _history.endsWith(filterPath))) {
       alteredFilter[newField] = alteredValue;
       return;
     }
