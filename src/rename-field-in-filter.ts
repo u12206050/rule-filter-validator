@@ -38,13 +38,13 @@ export function renameFieldInFilter(
       const logicalKey = key as keyof LogicalFilter;
       const logicalFilter = () =>
         (value as Filter[])
-          .map((subFilter: Filter, i) =>
+          .map((subFilter: Filter) =>
             renameFieldInFilter(
               subFilter,
               oldField,
               newField,
               filterPath,
-              `${_history}.${key}[${i}]`
+              `${_history}.${key}`
             )
           )
           .filter(Boolean) as Array<Filter>;
