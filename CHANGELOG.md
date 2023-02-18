@@ -1,3 +1,7 @@
+# 1.2.2
+
+ - Fix `extractFieldFromFilter` and add tests for it
+
 # 1.2.1
 
 ### Added utility functions

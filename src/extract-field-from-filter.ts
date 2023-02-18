@@ -1,4 +1,4 @@
-import {FieldFilter, FieldFilterOperator, Filter, LogicalFilter} from './types';
+import {Filter} from './types';
 
 /**
  * This extracts the given field from the passed Filter and returns a new Filter object
@@ -19,66 +19,64 @@ export function extractFieldFromFilter(
   _history = ''
 ): Filter | null {
   if (typeof filter !== 'object' || filter === null) {
-    return filter;
+    return null;
   }
 
   const keys = Object.keys(filter) as Array<keyof Filter>;
   if (keys.length === 0) {
-    return filter;
+    return null;
   }
 
-  let extractedFilter: Filter | undefined;
-  const alteredFilter: Filter = {};
+  const alteredFilter: Filter = {
+    _and: [],
+  };
+
+  const LogicalKeys = ['_and', '_or'];
   keys.forEach(key => {
     const value = filter[key];
 
-    if (Array.isArray(value)) {
-      const logicalKey = key as keyof LogicalFilter;
-
-      const flattenedLogicalFilter = () => {
-        const filters = (value as Filter[])
-          .map((subFilter: Filter, i) =>
-            extractFieldFromFilter(
-              subFilter,
-              field,
-              filterPath,
-              `${_history}.${key}[${i}]`
-            )
+    if (LogicalKeys.includes(key) && Array.isArray(value)) {
+      const matchingFilters = (value as Array<Filter>)
+        .map((subFilter: Filter, i: number) =>
+          extractFieldFromFilter(
+            subFilter,
+            field,
+            filterPath,
+            `${_history}.${key}[${i}]`
           )
-          .filter(Boolean) as Array<Filter>;
+        )
+        .filter(Boolean) as Array<Filter>;
 
-        if (filters.length === 0) {
-          return {};
-        }
-        if (filters.length === 1) {
-          return filters[0];
-        }
-        return {[logicalKey]: filters};
-      };
-
-      if (logicalKey === '_or' || logicalKey === '_and') {
-        Object.assign(alteredFilter, flattenedLogicalFilter());
-      } else {
-        alteredFilter[key] = value;
+      if (matchingFilters.length > 0) {
+        alteredFilter._and = alteredFilter._and.concat(matchingFilters);
       }
+    } else if (
+      value &&
+      typeof value === 'object' &&
+      key === field &&
+      _history.includes(filterPath)
+    ) {
+      alteredFilter._and.push({[key]: value} as Filter);
+    } else {
+      const matchingSubFilter = extractFieldFromFilter(
+        value,
+        field,
+        filterPath,
+        _history + '.' + key
+      );
 
-      return;
+      if (matchingSubFilter) {
+        alteredFilter._and.push(matchingSubFilter);
+      }
     }
-
-    const extractedValue = extractFieldFromFilter(
-      value,
-      field,
-      filterPath,
-      _history + '.' + key
-    );
-
-    if (key === field && (!filterPath || _history.includes(filterPath))) {
-      extractedFilter = {[field]: extractedValue} as Filter;
-      return;
-    }
-
-    alteredFilter[key] = extractedValue as FieldFilterOperator | FieldFilter;
   });
 
-  return extractedFilter || alteredFilter;
+  if (alteredFilter._and.length === 0) {
+    return null;
+  }
+  if (alteredFilter._and.length === 1) {
+    return alteredFilter._and[0];
+  }
+
+  return alteredFilter;
 }
