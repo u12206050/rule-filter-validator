@@ -1,3 +1,7 @@
+# 1.2.3
+
+ - Rework `extractFieldFromFilter` to return without the extracted field key
+
 # 1.2.2
 
  - Fix `extractFieldFromFilter` and add tests for it

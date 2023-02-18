@@ -47,8 +47,12 @@ export function extractFieldFromFilter(
         )
         .filter(Boolean) as Array<Filter>;
 
-      if (matchingFilters.length > 0) {
+      if (matchingFilters.length === 1 || key === '_and') {
         alteredFilter._and = alteredFilter._and.concat(matchingFilters);
+      } else if (matchingFilters.length > 1) {
+        alteredFilter._and.push({
+          _or: matchingFilters,
+        });
       }
     } else if (
       value &&
@@ -56,7 +60,7 @@ export function extractFieldFromFilter(
       key === field &&
       _history.includes(filterPath)
     ) {
-      alteredFilter._and.push({[key]: value} as Filter);
+      alteredFilter._and.push(value as Filter);
     } else {
       const matchingSubFilter = extractFieldFromFilter(
         value,

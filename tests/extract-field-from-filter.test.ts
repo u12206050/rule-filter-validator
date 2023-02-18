@@ -28,29 +28,45 @@ describe('extractFieldFromFilter', () => {
     };
 
     const expected = {
-      baz: {bar: {_gt: 10}},
+      bar: {_gt: 10},
     };
 
     expect(extractFieldFromFilter(filter, 'baz')).toEqual(expected);
   });
 
-  test('handles nested filter objects correctly', () => {
+  test('handles nested filter objects correctly even though the filter might not be logical', () => {
     const filter: Filter = {
       _and: [{foo: {bar: {_eq: 'baz'}}}, {foo: {baz: {_neq: 'quux'}}}],
     };
 
-    const expected = {baz: {_neq: 'quux'}};
+    const expected = {_neq: 'quux'};
 
     expect(extractFieldFromFilter(filter, 'baz')).toEqual(expected);
   });
 
   test('handles multiple nested filter objects correctly by grouping within _and', () => {
     const filter: Filter = {
-      _and: [{foo: {baz: {_gt: 10}}}, {foo: {baz: {_neq: 'quux'}}}],
+      _and: [{baz: {foo: {_gt: 10}}}, {baz: {foo: {_neq: 'quux'}}}],
     };
 
     const expected = {
-      _and: [{baz: {_gt: 10}}, {baz: {_neq: 'quux'}}],
+      _and: [{foo: {_gt: 10}}, {foo: {_neq: 'quux'}}],
+    };
+
+    expect(extractFieldFromFilter(filter, 'baz')).toEqual(expected);
+  });
+
+  test('handles multiple or filters objects correctly', () => {
+    const filter: Filter = {
+      _or: [{baz: {foo: {_gt: 10}}}, {baz: {foo: {_neq: 'quux'}}}],
+      baz: {bar: {_gt: 10}},
+    };
+
+    const expected = {
+      _and: [
+        {_or: [{foo: {_gt: 10}}, {foo: {_neq: 'quux'}}]},
+        {bar: {_gt: 10}},
+      ],
     };
 
     expect(extractFieldFromFilter(filter, 'baz')).toEqual(expected);
