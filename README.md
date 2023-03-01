@@ -175,8 +175,8 @@ const canAccess = validatePayload(filter, scope, strict?).length === 0
 | ---- | ----- | ----- |
 | _eq | equal to | string, number, boolean
 | _neq | not equal to | string, number, boolean
-| _contains | contains | string, number
-| _ncontains | does not contain | string, number
+| _contains | string/array contains | string, number
+| _ncontains | string/array does not contain | string, number
 | _starts_with | starts with | string, number
 | _nstarts_with | does not start with | string, number
 | _ends_with | ends with | string, number

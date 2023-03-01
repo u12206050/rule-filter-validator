@@ -1,3 +1,7 @@
+# 1.3.1
+
+  - Update `_contains` and `_ncontains` to test if scope field is array and if so, test if any of the values in the array match the filter value
+
 # 1.3.0
 
   - Add `_$` to allow for validating rules against an array of objects, such that if any object in the array passes the rule, the rule is considered valid.

@@ -30,6 +30,8 @@ export function isValid(
     return cb(strictValue(a), strictValue(b));
   }
 
+  const stringValue = strictString(compareValue);
+
   switch (fn) {
     case '_eq':
       return strictValue(compareValue) === strictValue(testValue);
@@ -38,22 +40,28 @@ export function isValid(
       return strictValue(compareValue) !== strictValue(testValue);
 
     case '_contains':
-      return strictString(testValue).indexOf(strictString(compareValue)) > -1;
+      if (Array.isArray(testValue)) {
+        return testValue.some(tv => strictString(tv) === stringValue);
+      }
+      return strictString(testValue).indexOf(stringValue) > -1;
 
     case '_ncontains':
-      return strictString(testValue).indexOf(strictString(compareValue)) === -1;
+      if (Array.isArray(testValue)) {
+        return testValue.some(tv => strictString(tv) === stringValue) === false;
+      }
+      return strictString(testValue).indexOf(stringValue) === -1;
 
     case '_starts_with':
-      return strictString(testValue).startsWith(strictString(compareValue));
+      return strictString(testValue).startsWith(stringValue);
 
     case '_nstarts_with':
-      return !strictString(testValue).startsWith(strictString(compareValue));
+      return !strictString(testValue).startsWith(stringValue);
 
     case '_ends_with':
-      return strictString(testValue).endsWith(strictString(compareValue));
+      return strictString(testValue).endsWith(stringValue);
 
     case '_nends_with':
-      return !strictString(testValue).endsWith(strictString(compareValue));
+      return !strictString(testValue).endsWith(stringValue);
 
     case '_in':
       return strictArray(compareValue).includes(strictValue(testValue));

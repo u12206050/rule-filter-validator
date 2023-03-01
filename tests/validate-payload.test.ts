@@ -13,6 +13,7 @@ const SCOPE = {
     country: 'no',
     continent: 'europe',
   },
+  skills: ['javascript', 'typescript', 'nodejs'],
   meta: {
     date: new Date(),
     time: new Date().getTime(),
@@ -206,6 +207,48 @@ describe('Test basic validations', () => {
         },
       }),
       0
+    );
+  });
+
+  it('Check _contains on array field', () => {
+    testRule(
+      parseFilter({
+        skills: {
+          _contains: 'typescript',
+        },
+      }),
+      0
+    );
+  });
+
+  it('Check multiple _contains on array field', () => {
+    testRule(
+      parseFilter({
+        _and: [
+          {
+            skills: {
+              _contains: 'typescript',
+            },
+          },
+          {
+            skills: {
+              _contains: 'javascript',
+            },
+          },
+        ],
+      }),
+      0
+    );
+  });
+
+  it('Should fail if _contains is used on array field and test value is string', () => {
+    testRule(
+      parseFilter({
+        skills: {
+          _contains: 'javascript,typescript',
+        },
+      }),
+      1
     );
   });
 });
