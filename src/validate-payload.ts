@@ -88,6 +88,21 @@ function validate(
           }
           return result;
         }
+        case '_$': {
+          const testValue = get(payload, path, undefined);
+          if (!Array.isArray(testValue)) {
+            return errors.push('Failed: ' + path + ' is not an array');
+          }
+          const swallowErrors: string[] = [];
+          const result = testValue.some(subItem =>
+            validate(compareValue, subItem, swallowErrors, '', strict)
+          );
+          if (!result) {
+            // If errors then will be false if all checks fail thus &&
+            errors.push(swallowErrors.join(' and '));
+          }
+          return result;
+        }
       }
 
       const testValue = get(payload, path, undefined);

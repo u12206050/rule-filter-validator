@@ -1,3 +1,7 @@
+# 1.3.0
+
+  - Add `_$` to allow for validating rules against an array of objects, such that if any object in the array passes the rule, the rule is considered valid.
+
 # 1.2.3
 
  - Rework `extractFieldFromFilter` to return without the extracted field key

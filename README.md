@@ -15,7 +15,7 @@ Useful for testing & validation Business Logic stored as json.
 [View all methods and functions](#methods)
 
 ## Examples
-```
+```ts
 const SCOPE = {
     person: {
         id: 1,
@@ -62,9 +62,10 @@ Calling `validatePayload(filter, payload, [strict = false])` with strict = true 
 **_contains** always compares as strings and is therefore not type sensitive
 
 ## Advance Usage
+
 ### Find a matching price rule
 
-```
+```ts
 const prices = [
     {
         label: 'Child price'
@@ -98,6 +99,51 @@ const priceToPay = prices.find(({ price, logic }) => {
 })
 ```
 
+### Matching items in a list
+
+```ts
+const filter: Filter = {
+    _or: [{
+        permissions: {
+            _$: {
+                action: {
+                    _eq: 'update',
+                },
+                collection: {
+                    _eq: 'membership',
+                },
+                fields: {
+                    _contains: 'status',
+                },
+            },
+        },
+    },
+    {
+        role: {
+            _eq: 'admin',
+        },
+    }],
+};
+
+const scope = {
+    role: 'author',
+    permissions: [
+        {
+            action: 'create',
+            collection: 'membership',
+            fields: ['person', 'status'],
+        },
+        {
+            action: 'read',
+            collection: 'membership',
+            fields: ['id', 'person', 'status'],
+        },
+        {action: 'update', collection: 'membership', fields: ['status']},
+    ],
+};
+
+const canAccess = validatePayload(filter, scope, strict?).length === 0
+```
 
 # Methods
 
@@ -114,6 +160,14 @@ const priceToPay = prices.find(({ price, logic }) => {
     This extracts the given field from the passed Filter and returns a new Filter object that only contains only the given field and its children, if any.
 
 ---
+
+## Special Operands
+
+| Fn | Description | Accepted Types |
+| ---- | ----- | ----- |
+| _and | All of the specified filters must be true for the expression to be true | array of filters
+| _or | At least one of the specified filters must be true for the expression to be true | array of filters
+| _$ | Used as an index for array of objects, whereby at least one item must pass the filter for the expression to be true.  | object
 
 ## All Operands (Functions)
 
@@ -141,3 +195,82 @@ const priceToPay = prices.find(({ price, logic }) => {
 | _nempty | not empty = | string, Array
 | _submitted | submitted = | string, number, boolean, Date, Array
 | _regex | matching regex | string, number, boolean, Date
+
+
+
+### _$
+
+Example of using `_$`
+
+Given the following data record:
+```ts
+const data = {
+    colors: [{
+        name: 'red',
+        hex: '#ff0000',
+    }, {
+        name: 'green',
+        hex: '#00ff00',
+    }, {
+        name: 'blue',
+        hex: '#0000ff',
+    }]
+};
+```
+
+The following filter will pass:
+```ts
+{
+    colors: {
+        _$: {
+            name: {
+                _eq: 'red',
+            },
+        },
+    },
+}
+```
+
+And the following will fail:
+```ts
+{
+    colors: {
+        _$: {
+            name: {
+                _eq: 'yellow',
+            },
+        },
+    },
+}
+```
+
+You could also have multiple properties that have to match
+```ts
+// Will pass
+{
+    colors: {
+        _$: {
+            name: {
+                _eq: 'red',
+            },
+            hex: {
+                _eq: '#ff0000',
+            },
+        },
+    },
+}
+
+// Will fail
+{
+    colors: {
+        _$: {
+            name: {
+                _eq: 'red',
+            },
+            hex: {
+                _eq: '#ff4444',
+            },
+        },
+    },
+};
+```
