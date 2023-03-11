@@ -1,5 +1,5 @@
 import {FieldFilter, FieldFilterOperator, Filter} from './types';
-import get from 'lodash.get';
+import {get} from 'lodash-es';
 import {parseFilter} from './parse-filter';
 import {isValid} from './is-valid';
 

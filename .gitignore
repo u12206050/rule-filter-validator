@@ -3,8 +3,7 @@ src/*.js
 src/*.d.ts
 
 # Generated output
-dist
-cjs
+build
 
 /.idea
 

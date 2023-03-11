@@ -3,9 +3,9 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "rootDir": "src/",
-    "outDir": "./dist",
+    "outDir": "build/",
     "types": ["node", "jest"],
-    "noEmitOnError": false
+    "moduleResolution": "node",
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]

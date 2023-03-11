@@ -1,3 +1,7 @@
+# 1.4.0
+
+  - Add esm module build
+
 # 1.3.1
 
   - Update `_contains` and `_ncontains` to test if scope field is array and if so, test if any of the values in the array match the filter value
