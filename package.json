@@ -1,17 +1,18 @@
 {
   "name": "rule-filter-validator",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A object and scope validator based on structured rules",
   "files": [
-    "build"
+    "build",
+    "index.js",
+    "index.d.ts"
   ],
+  "type": "module",
   "exports": {
-    ".": {
-      "types": "./build/types/index.d.ts",
-      "require": "./build/cjs/index.js",
-      "import": "./build/esm/index.js",
-      "default": "./build/esm/index.js"
-    }
+    "types": "./build/types/index.d.ts",
+    "import": "./build/esm/index.js",
+    "require": "./build/cjs/index.js",
+    "default": "./build/esm/index.js"
   },
   "keywords": [
     "logic-validator",
@@ -36,7 +37,6 @@
     "type": "git",
     "url": "https://github.com/u12206050/rule-filter-validator"
   },
-  "type": "module",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.16.0",
