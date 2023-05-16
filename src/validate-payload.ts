@@ -1,6 +1,6 @@
 import { get } from 'lodash-es';
-import { isValid } from './is-valid';
-import { parseFilter } from './parse-filter';
+import { isValid } from './is-valid.js';
+import { parseFilter } from './parse-filter.js';
 import { FieldFilter, FieldFilterOperator, Filter } from './types';
 
 const FieldFilterText: Record<keyof FieldFilterOperator, string> = {
