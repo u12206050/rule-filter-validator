@@ -1,7 +1,7 @@
-import {FieldFilter, FieldFilterOperator, Filter} from './types';
-import {get} from 'lodash-es';
-import {parseFilter} from './parse-filter';
-import {isValid} from './is-valid';
+import { get } from 'lodash-es';
+import { isValid } from './is-valid';
+import { parseFilter } from './parse-filter';
+import { FieldFilter, FieldFilterOperator, Filter } from './types';
 
 const FieldFilterText: Record<keyof FieldFilterOperator, string> = {
   _eq: 'equal to',

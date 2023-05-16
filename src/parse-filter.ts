@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {get} from 'lodash-es';
-import {FilterContext, Filter} from './types';
-import {toArray} from './to-array';
-import {adjustDate} from './adjust-date';
+import { get } from 'lodash-es';
+import { adjustDate } from './adjust-date';
+import { toArray } from './to-array';
+import { Filter, FilterContext } from './types';
 
 export const parseFilter = (
   filter: Filter,
