@@ -1,4 +1,4 @@
-# 1.5.1
+# 1.5.2
 
   - Fix esm issue with imports needing explicit file extensions
 
