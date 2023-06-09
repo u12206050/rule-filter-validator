@@ -1,13 +1,19 @@
 import { Filter, parseFilter, validatePayload } from '../src/index';
 
-const SCOPE = {
-  person: {
+const SCOPE = new Proxy({
+  person: new Proxy({
     id: 1,
     dob: '1998-02-18',
-    age: '23',
     active: true,
     gender: 'F',
-  },
+  }, {
+    get: (target: any, prop: string) => {
+      if (prop === 'age') {
+        return new Date('2020-02-20').getFullYear() - new Date(target.dob).getFullYear();
+      }
+      return target[prop];
+    }
+  }),
   org: {
     id: 10,
     country: 'no',
@@ -18,7 +24,7 @@ const SCOPE = {
     date: new Date(),
     time: new Date().getTime(),
   },
-};
+}, {});
 
 const testRule = (rule: Filter, resultLength = 0) => {
   const filter = parseFilter(rule, {
@@ -37,8 +43,8 @@ const testRule = (rule: Filter, resultLength = 0) => {
 describe('Test basic validations', () => {
   it('Passes simple test', () => {
     const errors = validatePayload(
-      {person: {age: {_lt: '18'}}},
-      {person: {age: 4}}
+      {person: {age: {_gte: '18', _lte: 30}, active: {_eq: true}}},
+      SCOPE
     );
     expect(errors).toEqual([]);
   });

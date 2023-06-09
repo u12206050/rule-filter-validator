@@ -1,3 +1,8 @@
+# 1.5.3
+
+  - Fix validation issue when payload is a proxy.
+  - Added tests to take into account a proxy payload
+
 # 1.5.2
 
   - Fix esm issue with imports needing explicit file extensions

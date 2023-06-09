@@ -1,4 +1,4 @@
-import { cloneDeep, get, isPlainObject, set } from 'lodash-es';
+import { get, isPlainObject, set } from 'lodash-es';
 import { functions } from './functions.js';
 import type { FieldFunction, Filter } from './types';
 
@@ -17,11 +17,10 @@ import type { FieldFunction, Filter } from './types';
  * ```
  */
 export function calculatePayloadFunctions(payload: Record<string, any>, filter: Filter) {
-	const newInput = cloneDeep(payload);
 
 	processFilterLevel(filter);
 
-	return newInput;
+	return payload;
 
 	function processFilterLevel(filter: Filter, parentPath?: string) {
 		for (const [key, value] of Object.entries(filter)) {
@@ -36,8 +35,8 @@ export function calculatePayloadFunctions(payload: Record<string, any>, filter: 
 				const fieldKey = key.match(/\(([^)]+)\)/)?.[1];
 				if (!fieldKey || !functionName) continue;
 				const currentValuePath = parentPath ? parentPath + '.' + fieldKey : fieldKey;
-				const currentValue = get(newInput, currentValuePath);
-				set(newInput, path, functions[functionName](currentValue));
+				const currentValue = get(payload, currentValuePath);
+				set(payload, path, functions[functionName](currentValue));
 			}
 		}
 	}
