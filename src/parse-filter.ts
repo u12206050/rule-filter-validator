@@ -3,7 +3,7 @@ import { get } from 'lodash-es';
 import { adjustDate } from './adjust-date.js';
 import { functions } from './functions.js';
 import { toArray } from './to-array.js';
-import { FieldFunction, Filter, FilterContext } from './types';
+import type { FieldFunction, Filter, FilterContext } from './types';
 
 export const parseFilter = (
   filter: Filter,

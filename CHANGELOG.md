@@ -1,3 +1,7 @@
+# 1.5.1
+
+  - Fix esm issue with imports needing explicit file extensions
+
 # 1.5.0
 
   - Add field functions `year(), month()` etc to allow altering payload values before validating them against the filter

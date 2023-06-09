@@ -2,7 +2,7 @@ import { get } from 'lodash-es';
 import { calculatePayloadFunctions } from './calculate-payload-functions.js';
 import { isValid } from './is-valid.js';
 import { parseFilter } from './parse-filter.js';
-import { FieldFilter, FieldFilterOperator, Filter } from './types';
+import type { FieldFilter, FieldFilterOperator, Filter } from './types';
 
 const FieldFilterText: Record<keyof FieldFilterOperator, string> = {
   _eq: 'equal to',

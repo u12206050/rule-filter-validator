@@ -1,6 +1,6 @@
 import { cloneDeep, get, isPlainObject, set } from 'lodash-es';
-import { functions } from './functions';
-import { FieldFunction, Filter } from './types';
+import { functions } from './functions.js';
+import type { FieldFunction, Filter } from './types';
 
 /**
  * Inject function output fields into a given payload for accurate validation

@@ -1,4 +1,4 @@
-import { Filter } from './types';
+import type { Filter } from './types';
 
 /**
  * This extracts the given field from the passed Filter and returns a new Filter object

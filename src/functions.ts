@@ -1,4 +1,4 @@
-import { FieldFunction } from "./types";
+import type { FieldFunction } from "./types";
 
 export const functions: Record<FieldFunction, (val: any) => any> = {
 	year,
