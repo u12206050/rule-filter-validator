@@ -1,4 +1,4 @@
-import {validatePayload, Filter} from '../src';
+import { Filter, validatePayload } from '../src/index';
 
 describe('Test non-strictiness of validator', () => {
   it('Pass equals', () => {
@@ -20,7 +20,7 @@ describe('Test non-strictiness of validator', () => {
     rule = {person: {age: {_contains: '12'}}};
     errors = validatePayload(rule, {person: {age: 12}});
     expect(errors).toHaveLength(0);
-  });
+  }); 
 
   it('Pass _in', () => {
     const rule = {person: {name: {_in: ['ZXC', 'QWE', 'ABC']}}};

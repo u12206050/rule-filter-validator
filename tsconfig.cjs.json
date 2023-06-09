@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./build/cjs",
     "module": "commonjs",
-    "target": "ES2019"
-  }
+    "target": "ES2019",
+  },
+  "exclude": ["tests"]
 }

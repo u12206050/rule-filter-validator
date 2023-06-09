@@ -1,4 +1,4 @@
-import {parseFilter, validatePayload, Filter} from '../src';
+import { Filter, parseFilter, validatePayload } from '../src/index';
 
 test('Simple ParseFilter replacing with value from $SCOPE', () => {
   const SCOPE = {

@@ -1,4 +1,4 @@
-import {validatePayload, Filter} from '../src';
+import { Filter, validatePayload } from '../src/index';
 
 describe('Test strictiness of validator', () => {
   it('Pass strict equals', () => {

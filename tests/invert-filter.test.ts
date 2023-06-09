@@ -1,4 +1,4 @@
-import {Filter, invertFilter, validatePayload} from '../src';
+import { Filter, invertFilter, validatePayload } from '../src/index';
 // TODO: Create tests for invert filter function
 
 describe('invertFilter', () => {

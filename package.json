@@ -1,6 +1,6 @@
 {
   "name": "rule-filter-validator",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "A object and scope validator based on structured rules",
   "files": [
     "build",
@@ -24,13 +24,15 @@
     "validate-scope"
   ],
   "scripts": {
-    "test": "npm run build && jest",
+    "test": "vitest",
+    "coverage": "vitest --coverage",
     "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
     "build:clean": "rm -rf ./build",
     "build": "npm run build:clean && npm run compile",
     "lint": "gts lint",
     "clean": "gts clean",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "pretest": "npm run build"
   },
   "author": "Gerard Lamusse",
   "repository": {
@@ -39,18 +41,13 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@babel/preset-typescript": "^7.16.0",
-    "@types/jest": "^27.0.3",
-    "@types/lodash-es": "^4.17.6",
-    "@types/lodash.get": "^4.4.6",
-    "@types/node": "^14.11.2",
-    "babel-jest": "^27.4.2",
+    "@types/lodash-es": "^4.17.7",
+    "@types/node": "^14.18.48",
+    "@vitest/coverage-v8": "^0.32.0",
     "gts": "^3.1.1",
-    "jest": "^27.4.2",
-    "ts-jest": "^27.0.7",
-    "typescript": "~4.7.0"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4",
+    "vitest": "^0.32.0"
   },
   "dependencies": {
     "lodash-es": "^4.17.21"

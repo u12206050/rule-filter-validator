@@ -23,44 +23,44 @@ export function adjustDate(date: Date, adjustment: string): Date | undefined {
     case 'yrs':
     case 'yr':
     case 'y':
-      date.setFullYear(date.getFullYear() + amount);
+      date.setUTCFullYear(date.getUTCFullYear() + amount);
       return date;
     case 'months':
     case 'month':
     case 'mth':
     case 'mo':
-      date.setMonth(date.getMonth() + amount);
+      date.setUTCMonth(date.getUTCMonth() + amount);
       return date;
     case 'weeks':
     case 'week':
     case 'w':
-      date.setDate(date.getDate() + amount * 7);
+      date.setUTCDate(date.getUTCDate() + amount * 7);
       return date;
     case 'days':
     case 'day':
     case 'd':
-      date.setDate(date.getDate() + amount);
+      date.setUTCDate(date.getUTCDate() + amount);
       return date;
     case 'hours':
     case 'hour':
     case 'hrs':
     case 'hr':
     case 'h':
-      date.setHours(date.getHours() + amount);
+      date.setUTCHours(date.getUTCHours() + amount);
       return date;
     case 'minutes':
     case 'minute':
     case 'mins':
     case 'min':
     case 'm':
-      date.setMinutes(date.getMinutes() + amount);
+      date.setUTCMinutes(date.getUTCMinutes() + amount);
       return date;
     case 'seconds':
     case 'second':
     case 'secs':
     case 'sec':
     case 's':
-      date.setSeconds(date.getSeconds() + amount);
+      date.setUTCSeconds(date.getUTCSeconds() + amount);
       return date;
     case 'milliseconds':
     case 'millisecond':

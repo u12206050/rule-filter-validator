@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { get } from 'lodash-es';
 import { adjustDate } from './adjust-date.js';
+import { functions } from './functions.js';
 import { toArray } from './to-array.js';
-import { Filter, FilterContext } from './types';
+import { FieldFunction, Filter, FilterContext } from './types';
 
 export const parseFilter = (
   filter: Filter,
@@ -42,9 +43,10 @@ function parseFilterValue(value: any, context: FilterContext) {
 function parseDynamicVariable(value: any, context: FilterContext) {
   if (value.startsWith('$NOW')) {
     if (value.includes('(') && value.includes(')')) {
-      const adjustment = value.match(/\(([^)]+)\)/)?.[1];
+      const [matched, adjustment, functionName] = value.match(/\(([^)]+)\)(?:\.(\w+))?/) as [string, string, FieldFunction?];
       if (!adjustment) return new Date();
-      return adjustDate(new Date(), adjustment);
+      let date = adjustDate(new Date(), adjustment);
+      return functionName ? functions[functionName](date) : date;
     }
 
     return new Date();

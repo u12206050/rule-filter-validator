@@ -3,11 +3,12 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "strict": true,
-    "rootDir": "src/",
-    "outDir": "build/",
-    "types": ["node", "jest"],
+    "rootDir": "src",
+    "outDir": "build",
+    "types": ["node", "vitest/globals"],
+    "lib": ["dom", "ES2022"],
     "moduleResolution": "node",
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": ["src/**/*.ts","tests/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

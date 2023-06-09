@@ -1,4 +1,4 @@
-import {Filter, extractFieldFromFilter} from '../src';
+import { Filter, extractFieldFromFilter } from '../src/index';
 
 describe('extractFieldFromFilter', () => {
   test('returns null if filter is not an object or null', () => {

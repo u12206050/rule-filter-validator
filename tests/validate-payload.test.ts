@@ -1,4 +1,4 @@
-import {parseFilter, validatePayload, Filter} from '../src';
+import { Filter, parseFilter, validatePayload } from '../src/index';
 
 const SCOPE = {
   person: {
@@ -27,7 +27,11 @@ const testRule = (rule: Filter, resultLength = 0) => {
 
   const errors = validatePayload(filter, SCOPE);
 
-  expect(errors).toHaveLength(resultLength);
+  if (!resultLength) {
+    expect(errors).toEqual([]);
+  } else {
+    expect(errors).toHaveLength(resultLength);
+  }
 };
 
 describe('Test basic validations', () => {
@@ -36,7 +40,7 @@ describe('Test basic validations', () => {
       {person: {age: {_lt: '18'}}},
       {person: {age: 4}}
     );
-    expect(errors).toHaveLength(0);
+    expect(errors).toEqual([]);
   });
 
   it('Validate gt and lt (number)', () => {

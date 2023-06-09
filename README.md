@@ -10,12 +10,10 @@ Useful for testing & validation Business Logic stored as json.
 
 `npm install rule-filter-validator`
 
-`validatePayload(filter, payload, [strict = false])`
 
-[View all methods and functions](#methods)
-
-## Examples
+## Usage
 ```ts
+// Initial state/scope/payload
 const SCOPE = {
     person: {
         id: 1,
@@ -25,7 +23,10 @@ const SCOPE = {
         gender: 'F'
     }
 }
+```
 
+```ts
+// Validate and return errors
 const rule: Filter = {
     "person": {
         "age": {
@@ -39,7 +40,20 @@ let errors = validatePayload(rule, SCOPE);
 return ! errors.length // true
 ```
 
-### Strictness
+```ts
+// Simply validate
+// Using field alter functions
+isValidPayload({ person: { 'year(dob)': { _eq: 1998 } } }, SCOPE) // true
+
+
+// Using $NOW
+isValidPayload({ person: { 'dob': { _gt: '$NOW(-6 years)' } } }, SCOPE) // false
+```
+
+[View all methods and functions](#methods)
+
+<details>
+<summary>NOTE: Strictness</summary>
 
 By default tests are case and type insensitive, meaning:
 
@@ -60,10 +74,14 @@ Calling `validatePayload(filter, payload, [strict = false])` with strict = true 
 | 'zxc3' | _contains | 'ZXC' | false
 
 **_contains** always compares as strings and is therefore not type sensitive
+</details>
+
+<br/>
 
 ## Advance Usage
 
-### Find a matching price rule
+<details>
+<summary>Find a matching price rule</summary>
 
 ```ts
 const prices = [
@@ -98,8 +116,10 @@ const priceToPay = prices.find(({ price, logic }) => {
     return ! e.length
 })
 ```
+</details>
 
-### Matching items in a list
+<details>
+<summary>Matching items in a list</summary>
 
 ```ts
 const filter: Filter = {
@@ -144,8 +164,34 @@ const scope = {
 
 const canAccess = validatePayload(filter, scope, strict?).length === 0
 ```
+</details>
+
+<details>
+<summary>Using functions and date adjustments</summary>
+    
+```ts
+// passes
+validatePayload(
+    { person: {'year(dob)': {_eq: 2009}} },
+    { person: { dob: '2009-02-18' } }
+);
+
+// passes (IF the year is currently 2021)
+validatePayload(
+    { person: {'year(dob)': {_eq: '$NOW(-12 years).year'}} },
+    { person: { dob: '2009-02-19' } }
+);
+```
+</details>
+<br/>
+<hr/>
+<br/>
 
 # Methods
+
+- `isValidPayload(Filter, Payload, strict?)`
+
+    This is a simple function that returns true if the payload is valid against the filter, and false otherwise.
 
 - `validatePayload(Filter, Payload, strict?)`
 
@@ -159,7 +205,29 @@ const canAccess = validatePayload(filter, scope, strict?).length === 0
 
     This extracts the given field from the passed Filter and returns a new Filter object that only contains only the given field and its children, if any.
 
+- `adjustDate(date, adjustment)`
+
+    The function applies adjustments to the Date using built-in methods such as setUTCMonth, setUTCHours, etc., based on the type of adjustment requested. If no supported adjustment type is supplied, it returns undefined.
+    
+    eg. `-1 month` will return the date 1 month before the given date.
+    
+    Supports years, months, days, hours, minutes, seconds, milliseconds, and weeks.
+
 ---
+
+# Dynamic values
+
+Currently only supporting one dynamic value, which is `$NOW`.
+
+Examples:
+ - `$NOW(-1 month)` will test the payload with the date 1 month before the current date.
+ - `$NOW(-12 years).year` will test the payload with the year 12 years before the current date.
+
+Supports all [field functions](#Field-Functions) that can be applied to a date.
+
+<br/>
+
+# Operands
 
 ## Special Operands
 
@@ -168,6 +236,23 @@ const canAccess = validatePayload(filter, scope, strict?).length === 0
 | _and | All of the specified filters must be true for the expression to be true | array of filters
 | _or | At least one of the specified filters must be true for the expression to be true | array of filters
 | _$ | Used as an index for array of objects, whereby at least one item must pass the filter for the expression to be true.  | object
+
+## Field Functions
+
+Used on fields to perform operations on them.
+eg. `year(dob)` will test with the year of the date of birth.
+
+| Fn | Description | Accepted Types |
+| ---- | ----- | ----- |
+| year() | the year of the date | date, isoString
+| month() | the month of the date | date, isoString
+| week() | the week of the date | date, isoString
+| day() | the day of the date | date, isoString
+| hour() | the hour of the date | date, isoString
+| minute() | the minute of the date | date, isoString
+| second() | the second of the date | date, isoString
+| count() | the number of items in the array | array
+
 
 ## All Operands (Functions)
 
@@ -197,10 +282,10 @@ const canAccess = validatePayload(filter, scope, strict?).length === 0
 | _regex | matching regex | string, number, boolean, Date
 
 
-
 ### _$
 
-Example of using `_$`
+<details>
+<summary>Examples of using `_$`</summary>
 
 Given the following data record:
 ```ts
@@ -274,3 +359,4 @@ You could also have multiple properties that have to match
     },
 };
 ```
+</details>

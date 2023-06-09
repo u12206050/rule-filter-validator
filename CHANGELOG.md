@@ -1,3 +1,9 @@
+# 1.5.0
+
+  - Add field functions `year(), month()` etc to allow altering payload values before validating them against the filter
+  - Add support for functions on `$NOW()` such as `$NOW(-1 year).year`
+  - Add `isValidPayload` as shorthand for `validatePayload(filter, payload).length === 0`
+
 # 1.4.0
 
   - Add esm module build

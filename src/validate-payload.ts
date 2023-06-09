@@ -1,4 +1,5 @@
 import { get } from 'lodash-es';
+import { calculatePayloadFunctions } from './calculate-payload-functions.js';
 import { isValid } from './is-valid.js';
 import { parseFilter } from './parse-filter.js';
 import { FieldFilter, FieldFilterOperator, Filter } from './types';
@@ -42,10 +43,23 @@ export function validatePayload(
   strict = false
 ) {
   const errors: string[] = [];
-  validate(parseFilter(filter), payload, errors, '', strict);
+  filter = parseFilter(filter);
+  payload = calculatePayloadFunctions(payload, filter);
+  validate(filter, payload, errors, '', strict);
   errors.reverse();
 
   return errors;
+}
+
+/**
+ * A shorthand function to check if the payload is valid
+ */
+export function isValidPayload(
+  filter: Filter,
+  payload: Record<string, any>,
+  strict = false
+) {
+  return validatePayload(filter, payload, strict).length === 0;
 }
 
 /**

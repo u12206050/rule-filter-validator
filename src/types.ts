@@ -65,3 +65,9 @@ export type FieldFilterOperator = {
   _submitted?: boolean;
   _regex?: string;
 };
+
+
+//
+// Functions
+//
+export type FieldFunction = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second' | 'count';
