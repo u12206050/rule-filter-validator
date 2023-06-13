@@ -43,6 +43,14 @@ describe('Test validations with functions', () => {
     expect(errors).toEqual([]);
   });
 
+  it('Containing year function full', () => {
+    const errors = validatePayload(
+      {'year(person.dob)': {_eq: 1998}},
+      SCOPE
+    );
+    expect(errors).toEqual([]);
+  });
+
   it('Containing month function', () => {
     const errors = validatePayload(
       {person: {'month(dob)': {_eq: 2}}},
