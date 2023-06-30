@@ -1,3 +1,7 @@
+# 1.5.4
+
+  - Removed console logs
+
 # 1.5.3
 
   - Fix validation issue when payload is a proxy.

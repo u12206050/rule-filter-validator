@@ -1,6 +1,6 @@
 {
   "name": "rule-filter-validator",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "A object and scope validator based on structured rules",
   "files": [
     "build",
