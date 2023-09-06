@@ -1,4 +1,4 @@
-import {Filter, removeFieldFromFilter} from '../src';
+import { Filter, removeFieldFromFilter } from '../src';
 
 describe('remove-field-from-filter', () => {
   it('should remove a FieldFilter', () => {
@@ -69,6 +69,6 @@ describe('remove-field-from-filter', () => {
         },
       ],
     };
-    expect(removeFieldFromFilter(filter, 'test1', '_and')).toEqual(expected);
+    expect(removeFieldFromFilter(filter, 'test1')).toEqual(expected);
   });
 });

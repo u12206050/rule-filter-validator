@@ -1,4 +1,4 @@
-import {Filter, renameFieldInFilter} from '../src';
+import { Filter, renameFieldInFilter } from '../src';
 
 describe('rename-field-in-filter', () => {
   it('should rename a FieldFilter', () => {
@@ -60,7 +60,7 @@ describe('rename-field-in-filter', () => {
         },
       ],
     };
-    expect(renameFieldInFilter(filter, 'test2', 'test100', '_and')).toEqual(
+    expect(renameFieldInFilter(filter, 'test2', 'test100')).toEqual(
       expected
     );
   });
