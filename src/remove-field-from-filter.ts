@@ -36,20 +36,24 @@ export function removeFieldFromFilter(
       const logicalKey = key as keyof LogicalFilter;
       const logicalFilter = () =>
         (value as Filter[])
-          .map((subFilter: Filter, i) =>
+          .map((subFilter: Filter) =>
             removeFieldFromFilter(
               subFilter,
               field,
               filterPath,
-              `${_history}.${key}[${i}]`
+              `${_history}.${key}`
             )
           )
           .filter(Boolean) as Array<Filter>;
 
       if (logicalKey === '_or') {
-        (alteredFilter as LogicalFilterOR)._or = logicalFilter();
+        (alteredFilter as LogicalFilterOR)._or = logicalFilter().filter(
+          v => Object.keys(v).length > 0
+        );
       } else if (logicalKey === '_and') {
-        (alteredFilter as LogicalFilterAND)._and = logicalFilter();
+        (alteredFilter as LogicalFilterAND)._and = logicalFilter().filter(
+          v => Object.keys(v).length > 0
+        );
       } else {
         alteredFilter[key] = value;
       }
@@ -64,7 +68,7 @@ export function removeFieldFromFilter(
       _history + '.' + key
     );
 
-    if (key === field && (!filterPath || _history.includes(filterPath))) {
+    if (key === field && (!filterPath || _history.endsWith(filterPath))) {
       return;
     }
 
