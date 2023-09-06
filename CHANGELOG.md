@@ -1,3 +1,9 @@
+# 1.5.5
+
+  - Fixed functions (eg. year, month) used within `_and` and `_or` rules
+  - Fixed error with empty object in array when using `removeFieldFromFilter`
+  - Fixed error with empty object in array when using `renameFieldInFilter`
+
 # 1.5.4
 
   - Removed console logs

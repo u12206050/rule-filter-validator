@@ -30,13 +30,22 @@ export function calculatePayloadFunctions(payload: Record<string, any>, filter: 
 				processFilterLevel(value, path);
 			}
 
-			if (key.includes('(') && key.includes(')')) {
+      if (Array.isArray(value) && (key === '_and' || key === '_or')) {
+        for (const filter of value) {
+          processFilterLevel(filter, parentPath);
+        }
+        continue;
+      }
+
+      if (key.includes('(') && key.includes(')')) {
 				const functionName = key.split('(')[0] as FieldFunction;
 				const fieldKey = key.match(/\(([^)]+)\)/)?.[1];
 				if (!fieldKey || !functionName) continue;
 				const currentValuePath = parentPath ? parentPath + '.' + fieldKey : fieldKey;
 				const currentValue = get(payload, currentValuePath);
-				set(payload, path, functions[functionName](currentValue));
+
+        const currentPayloadPath = parentPath ? parentPath + '.' + key : key;
+				set(payload, currentPayloadPath, functions[functionName](currentValue));
 			}
 		}
 	}

@@ -42,6 +42,13 @@ describe('calculatePayloadFunctions', () => {
 					_lte: 3,
 				},
 			},
+      _and: [
+        {
+          'day(date)': {
+            _eq: 30,
+          }
+        }
+      ]
 		};
 
 		const output = calculatePayloadFunctions(input, filter);
@@ -53,6 +60,7 @@ describe('calculatePayloadFunctions', () => {
 				anotherDate: '2022-03-30T09:36:27Z',
 				'month(anotherDate)': 3,
 			},
+      'day(date)': 30
 		});
 	});
 });

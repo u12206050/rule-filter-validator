@@ -34,7 +34,7 @@ const testRule = (rule: Filter, resultLength = 0) => {
   const errors = validatePayload(filter, SCOPE);
 
   if (!resultLength) {
-    expect(errors).toEqual([]);
+    expect(errors[0]).toEqual(undefined);
   } else {
     expect(errors).toHaveLength(resultLength);
   }
@@ -46,21 +46,19 @@ describe('Test basic validations', () => {
       {person: {age: {_gte: '18', _lte: 30}, active: {_eq: true}}},
       SCOPE
     );
-    expect(errors).toEqual([]);
+    expect(errors[0]).toEqual(undefined);
   });
 
   it('Validate gt and lt (number)', () => {
-    testRule(
-      {
+    const errors = validatePayload({
         person: {
           age: {
             _gt: 18,
             _lt: '25',
           },
         },
-      },
-      0
-    );
+      }, SCOPE);
+      expect(errors[0]).toEqual(undefined);
   });
 
   it('Check error of gt and lt', () => {

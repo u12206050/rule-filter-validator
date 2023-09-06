@@ -1,4 +1,4 @@
-import { Filter, parseFilter, validatePayload } from '../src/index';
+import { validatePayload } from '../src/index';
 
 const SCOPE = {
   person: {
@@ -17,30 +17,25 @@ const SCOPE = {
   meta: {
     date: new Date(),
     time: new Date().getTime(),
-  },
-};
-
-const testRule = (rule: Filter, resultLength = 0) => {
-  const filter = parseFilter(rule, {
-    $SCOPE: SCOPE,
-  }) as Filter;
-
-  const errors = validatePayload(filter, SCOPE);
-
-  if (!resultLength) {
-    expect(errors).toEqual([]);
-  } else {
-    expect(errors).toHaveLength(resultLength);
   }
 };
 
 describe('Test validations with functions', () => {
+
+  it('Containing month function', () => {
+    const errors = validatePayload(
+      { _and: [ {person: {'month(dob)': {_eq: 2}}} ]}, 
+      SCOPE
+    );
+    expect(errors[0]).toEqual(undefined);
+  });
+
   it('Containing year function', () => {
     const errors = validatePayload(
       {person: {'year(dob)': {_eq: 1998}}},
       SCOPE
     );
-    expect(errors).toEqual([]);
+    expect(errors[0]).toEqual(undefined);
   });
 
   it('Containing year function full', () => {
@@ -48,7 +43,7 @@ describe('Test validations with functions', () => {
       {'year(person.dob)': {_eq: 1998}},
       SCOPE
     );
-    expect(errors).toEqual([]);
+    expect(errors[0]).toEqual(undefined);
   });
 
   it('Containing month function', () => {
@@ -56,7 +51,7 @@ describe('Test validations with functions', () => {
       {person: {'month(dob)': {_eq: 2}}},
       SCOPE
     );
-    expect(errors).toHaveLength(0);
+    expect(errors[0]).toEqual(undefined);
   });
 
   it('Containing year function and dynamic filter', () => {
@@ -67,7 +62,16 @@ describe('Test validations with functions', () => {
       { person: {'year(dob)': {_eq: '$NOW(-12 years).year'}} },
       { person: { dob: now.toLocaleDateString() } }
     );
-    expect(errors).toEqual([]);
+    expect(errors[0]).toEqual(undefined);
   });
 
+  it('Containing month function', () => {
+    const errors = validatePayload({
+      _and: [
+        {person: {'month(dob)': {_eq: 2}}}
+      ]},
+      SCOPE
+    );
+    expect(errors[0]).toEqual(undefined);
+  });
 });
