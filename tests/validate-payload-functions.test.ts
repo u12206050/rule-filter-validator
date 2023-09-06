@@ -21,15 +21,6 @@ const SCOPE = {
 };
 
 describe('Test validations with functions', () => {
-
-  it('Containing month function', () => {
-    const errors = validatePayload(
-      { _and: [ {person: {'month(dob)': {_eq: 2}}} ]}, 
-      SCOPE
-    );
-    expect(errors[0]).toEqual(undefined);
-  });
-
   it('Containing year function', () => {
     const errors = validatePayload(
       {person: {'year(dob)': {_eq: 1998}}},
@@ -65,7 +56,7 @@ describe('Test validations with functions', () => {
     expect(errors[0]).toEqual(undefined);
   });
 
-  it('Containing month function', () => {
+  it('Containing month function in _and', () => {
     const errors = validatePayload({
       _and: [
         {person: {'month(dob)': {_eq: 2}}}
@@ -73,5 +64,24 @@ describe('Test validations with functions', () => {
       SCOPE
     );
     expect(errors[0]).toEqual(undefined);
+  });
+
+  it('Containing duplicate functions across _and _or', () => {
+    const errors = validatePayload({
+      _or: [
+        { _and: [
+          {person: {'month(dob)': {_eq: 1}}},
+        ]},
+        { _and: [
+          {person: {'month(dob)': {_eq: 2}}},
+        ]}, 
+        { _and: [
+          {person: {'month(dob)': {_eq: 3}}},
+        ]},        
+      ]},
+      SCOPE
+    );
+    expect(errors[0]).toEqual(undefined);
+    expect((SCOPE.person as any)['month(dob)']).toEqual(2);
   });
 });
