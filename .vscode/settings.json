@@ -2,6 +2,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "vitest.showFailMessages": true,
   "vitest.enable": true,
-  "vitest.commandLine": "npm test",
+  "vitest.commandLine": "npx vitest",
   "testing.automaticallyOpenPeekView": "never"
 }
