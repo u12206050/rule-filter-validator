@@ -1,3 +1,9 @@
+# 1.5.8
+  
+  - Added a typescript helper type called `MostComplexType` which given a type returns the complex type eg. `Array<MyType> -> MyType`
+  - Added a type called `PickMostComplex<T>` which returns a new type that contains the properties with their most complex type,
+    excluding base types such as string, number, boolean etc.
+
 # 1.5.5
 
   - Fixed functions (eg. year, month) used within `_and` and `_or` rules

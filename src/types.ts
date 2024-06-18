@@ -77,10 +77,9 @@ export type MostComplexType<T> =
 			? PickMostComplex<T> // If it's an object, pick the object.
 			: never; // Otherwise, ignore primitives and nulls.
 
-type PickMostComplex<T> = {
+export type PickMostComplex<T> = {
 	[P in keyof T]?: NonNullable<T[P]> extends infer TP ? MostComplexType<TP> : never;
 };
-
 
 //
 // Functions
