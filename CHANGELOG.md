@@ -1,4 +1,4 @@
-# 1.5.8
+# 1.5.9
   
   - Added a typescript helper type called `MostComplexType` which given a type returns the complex type eg. `Array<MyType> -> MyType`
   - Added a type called `PickMostComplex<T>` which returns a new type that contains the properties with their most complex type,
