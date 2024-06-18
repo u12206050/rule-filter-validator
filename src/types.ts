@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type FilterContext = Record<string, any>;
+
 export type FilterOperator =
   | 'eq'
   | 'neq'
@@ -25,16 +28,9 @@ export type ClientFilterOperator =
   | 'ends_with'
   | 'nends_with';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type FilterContext = Record<string, any>;
-
-export type Filter<T = FilterContext> =
-  | LogicalFilter<Partial<T>>
-  | FieldFilter<Partial<T>>;
-  
-export type Unpacked<T> = T extends Array<infer U> ? U : T;
+export type Filter<T = FilterContext> = LogicalFilter<PickMostComplex<T>> | FieldFilter<PickMostComplex<T>>;
 export type FieldFilter<T = FilterContext> = {
-  [field in keyof T]: FieldFilterOperator | FieldFilter<Partial<Unpacked<T[field]>>>;
+    [field in keyof T]: FieldFilterOperator | FieldFilter<T[field]>;
 };
 
 export type LogicalFilterOR<T = FilterContext> = {_or: Filter<Partial<T>>[]};
@@ -66,6 +62,23 @@ export type FieldFilterOperator = {
   _nempty?: boolean;
   _submitted?: boolean;
   _regex?: string;
+};
+
+//
+// Power helpers
+//
+
+export type MostComplexType<T> =
+	T extends Array<infer U>
+		? U extends object
+			? PickMostComplex<U>
+			: never // If it's an array, pick the type of the array element.
+		: T extends object
+			? PickMostComplex<T> // If it's an object, pick the object.
+			: never; // Otherwise, ignore primitives and nulls.
+
+type PickMostComplex<T> = {
+	[P in keyof T]?: NonNullable<T[P]> extends infer TP ? MostComplexType<TP> : never;
 };
 
 
