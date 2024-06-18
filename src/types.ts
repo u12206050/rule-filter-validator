@@ -31,8 +31,10 @@ export type FilterContext = Record<string, any>;
 export type Filter<T = FilterContext> =
   | LogicalFilter<Partial<T>>
   | FieldFilter<Partial<T>>;
+  
+export type Unpacked<T> = T extends Array<infer U> ? U : T;
 export type FieldFilter<T = FilterContext> = {
-  [field in keyof T]: FieldFilterOperator | FieldFilter<Partial<T[field]>>;
+  [field in keyof T]: FieldFilterOperator | FieldFilter<Partial<Unpacked<T[field]>>>;
 };
 
 export type LogicalFilterOR<T = FilterContext> = {_or: Filter<Partial<T>>[]};
