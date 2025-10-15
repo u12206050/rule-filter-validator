@@ -1,3 +1,7 @@
+# 1.6.0
+
+  - Add relational array operators `_some` and `_none` to validate nested collections
+
 # 1.5.9
   
   - Added a typescript helper type called `MostComplexType` which given a type returns the complex type eg. `Array<MyType> -> MyType`

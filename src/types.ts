@@ -29,8 +29,16 @@ export type ClientFilterOperator =
   | 'nends_with';
 
 export type Filter<T = FilterContext> = LogicalFilter<PickMostComplex<T>> | FieldFilter<PickMostComplex<T>>;
+export type ArrayRelationalOperators<T = FilterContext> = {
+	_$?: Filter<PickMostComplex<T>>;
+	_some?: Filter<PickMostComplex<T>>;
+	_none?: Filter<PickMostComplex<T>>;
+};
+
 export type FieldFilter<T = FilterContext> = {
-    [field in keyof T]: FieldFilterOperator | FieldFilter<T[field]>;
+	[field in keyof T]:
+		| FieldFilterOperator
+		| (FieldFilter<T[field]> & ArrayRelationalOperators<T[field]>);
 };
 
 export type LogicalFilterOR<T = FilterContext> = {_or: Filter<Partial<T>>[]};

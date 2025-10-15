@@ -236,6 +236,8 @@ Supports all [field functions](#Field-Functions) that can be applied to a date.
 | _and | All of the specified filters must be true for the expression to be true | array of filters
 | _or | At least one of the specified filters must be true for the expression to be true | array of filters
 | _$ | Used as an index for array of objects, whereby at least one item must pass the filter for the expression to be true.  | object
+| _some | At least one related item matches the nested filter | object (applied to array fields)
+| _none | No related items match the nested filter | object (applied to array fields)
 
 ## Field Functions
 
@@ -359,4 +361,55 @@ You could also have multiple properties that have to match
     },
 };
 ```
+</details>
+
+### _some and _none
+
+<details>
+<summary>Examples of using <code>_some</code> and <code>_none</code></summary>
+
+Given the following data record:
+
+```ts
+const data = {
+    categories: [
+        { id: 1, name: 'Tech' },
+        { id: 2, name: 'Recipe' },
+        { id: 3, name: 'Travel' },
+    ],
+};
+```
+
+Match items where at least one related item satisfies the nested condition using <code>_some</code>:
+
+```ts
+{
+    categories: {
+        _some: {
+            name: {
+                _eq: 'Recipe',
+            },
+        },
+    },
+}
+```
+
+Match items where none of the related items satisfy the nested condition using <code>_none</code>:
+
+```ts
+{
+    categories: {
+        _none: {
+            name: {
+                _eq: 'Recipe',
+            },
+        },
+    },
+}
+```
+
+Notes:
+- <code>_some</code> and <code>_none</code> apply to array (one-to-many or many-to-many) fields only.
+- They behave similarly to <code>_$</code>, but provide explicit existential semantics (some vs none).
+
 </details>

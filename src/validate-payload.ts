@@ -117,6 +117,34 @@ function validate(
           }
           return result;
         }
+        case '_some': {
+          const testValue = get(payload, path, undefined);
+          if (!Array.isArray(testValue)) {
+            return errors.push('Failed: ' + path + ' is not an array');
+          }
+          const swallowErrors: string[] = [];
+          const result = testValue.some(subItem =>
+            validate(compareValue, subItem, swallowErrors, '', strict)
+          );
+          if (!result) {
+            errors.push(swallowErrors.join(' and '));
+          }
+          return result;
+        }
+        case '_none': {
+          const testValue = get(payload, path, undefined);
+          if (!Array.isArray(testValue)) {
+            return errors.push('Failed: ' + path + ' is not an array');
+          }
+          const swallowErrors: string[] = [];
+          const hasMatch = testValue.some(subItem =>
+            validate(compareValue, subItem, swallowErrors, '', strict)
+          );
+          if (hasMatch) {
+            errors.push('Failed: ' + path + ' has at least one matching related item');
+          }
+          return !hasMatch;
+        }
       }
 
       const testValue = get(payload, path, undefined);

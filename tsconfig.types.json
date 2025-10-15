@@ -4,6 +4,7 @@
     "outDir": "./build/types",
     "declaration": true,
     "emitDeclarationOnly": true,
+    "types": []
   },
   "exclude": ["tests"]
 }
